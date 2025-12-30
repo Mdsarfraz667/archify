@@ -1,5 +1,6 @@
 // Command flow for archify
 import { getProjectConfig } from './prompts.js';
+import { generateProject } from './generator/index.js';
 
 export async function runCli(argv: string[]) {
   const projectName = argv[2];
@@ -13,4 +14,8 @@ export async function runCli(argv: string[]) {
 
   console.log('\nProject configuration:\n');
   console.log(config);
+  //generate project 
+  const genetated_project = generateProject(config);
+  console.log('\n genertaed project:')
+  console.log(genetated_project);
 }
