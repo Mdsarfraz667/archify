@@ -15,7 +15,5 @@ export async function runCli(argv: string[]) {
   console.log('\nProject configuration:\n');
   console.log(config);
   //generate project 
-  const genetated_project = generateProject(config);
-  console.log('\n genertaed project:')
-  console.log(genetated_project);
+  generateProject(config);
 }
