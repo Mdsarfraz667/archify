@@ -1,8 +1,19 @@
 // Interactive questions for archify
-import prompts from 'prompts';
+import prompts, { type PromptObject } from 'prompts';
+import { type ProjectConfig } from './generator/types.js';
 
-export async function getProjectConfig(projectName: string) {
-  const response = await prompts([
+export async function getProjectConfig(projectName?: string): Promise<ProjectConfig> {
+  const questions: PromptObject[] = [];
+
+  if(!projectName){
+    questions.push({
+      type: 'text',
+      name: 'projectName',
+      message: 'Enter the project name...'
+    })
+  }
+
+  questions.push(
     {
       type: 'select',
       name: 'language',
@@ -29,12 +40,21 @@ export async function getProjectConfig(projectName: string) {
         { title: 'None', value: 'none' },
         { title: 'Express', value: 'express' },
         { title: 'Fastify', value: 'fastify' }
-      ]
-    }
-  ]);
+        ]
+      }
+    );
+
+  const response = await prompts(questions);
+
+  if (!response.language || !response.architecture || !response.framework) {
+    throw new Error('Missing required configuration fields');
+  }
 
   return {
-    projectName,
-    ...response
+    projectName: projectName ?? (response.projectName as string),
+    language: response.language as ProjectConfig['language'],
+    architecture: response.architecture as ProjectConfig['architecture'],
+    framework: response.framework as ProjectConfig['framework']
   };
+
 }
