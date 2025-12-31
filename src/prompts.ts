@@ -2,7 +2,7 @@
 import prompts, { type PromptObject } from 'prompts';
 import { type ProjectConfig } from './generator/types.js';
 
-export async function getProjectConfig(projectName?: string): Promise<ProjectConfig> {
+export async function getProjectConfig(projectName?: string): Promise<ProjectConfig | null> {
   const questions: PromptObject[] = [];
 
   if(!projectName){
@@ -46,12 +46,15 @@ export async function getProjectConfig(projectName?: string): Promise<ProjectCon
 
   const response = await prompts(questions);
 
-  if (!response.language || !response.architecture || !response.framework) {
-    throw new Error('Missing required configuration fields');
+  const finalProjectName = projectName ?? response.projectName;
+
+  if (!finalProjectName || !response.language || !response.architecture || !response.framework) {
+    console.log('❌ Please type a project name and retry.');
+    return null; // Exit gracefully
   }
 
   return {
-    projectName: projectName ?? (response.projectName as string),
+    projectName: finalProjectName as string,
     language: response.language as ProjectConfig['language'],
     architecture: response.architecture as ProjectConfig['architecture'],
     framework: response.framework as ProjectConfig['framework']

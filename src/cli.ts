@@ -7,6 +7,10 @@ export async function runCli(argv: string[]) {
 
   const config = await getProjectConfig(projectName);
 
+  if (!config) {
+    process.exit(1);
+  }
+
   console.log('\nProject configuration:\n');
   console.log(config);
   //generate project 
