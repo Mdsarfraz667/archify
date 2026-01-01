@@ -7,9 +7,8 @@
     "archify": "./bin/archify.js"
   },
   "scripts": {
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev" : "node src/index.ts"
+    "dev": "tsx src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +19,7 @@
   },
   "devDependencies": {
     "@types/prompts": "^2.4.9",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

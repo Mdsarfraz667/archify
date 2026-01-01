@@ -5,12 +5,11 @@ import { generateProject } from './generator/index.js';
 export async function runCli(argv: string[]) {
   const projectName = argv[2];
 
-  if (!projectName) {
-    console.error('Please provide a project name.');
+  const config = await getProjectConfig(projectName);
+
+  if (!config) {
     process.exit(1);
   }
-
-  const config = await getProjectConfig(projectName);
 
   console.log('\nProject configuration:\n');
   console.log(config);
